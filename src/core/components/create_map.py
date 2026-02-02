@@ -1,5 +1,6 @@
 import pygame
 from core.settings import Settings
+from core.block import Block
 from core.database import list_map, list_blocks
 from core.setup import screen
 
@@ -12,16 +13,14 @@ class Map(Settings):
     def create_map(self):
         x = self.X
         y = self.Y
-
         for list_row in list_map:
             for block in list_row:
                 if block == 1:
-                    wall = Settings(width= 50, height= 50, x= x, y= y, file_name= "block.png", folder_name= "background")
+                    wall = Block(width= 50, height= 50, x= x, y= y, file_name= "block.png", folder_name= "background")
                     wall.load_image()
                     list_blocks.append(wall)
                 x += 50
             y += 50
             x = self.X
-
 game_map = Map()
 game_map.create_map()
