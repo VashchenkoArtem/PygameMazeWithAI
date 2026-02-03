@@ -18,6 +18,7 @@ def run_game():
                 hero.blit_sprite(screen)
                 
                 hero.move_hero()
+                hero.move_run()
                 hero.move_jump()
                 
         for block in list_blocks:

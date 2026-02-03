@@ -19,6 +19,10 @@ class Map(Settings):
                     wall = Block(width= 50, height= 50, x= x, y= y, file_name= "block.png", folder_name= "background")
                     wall.load_image()
                     list_blocks.append(wall)
+                if block == 2:
+                    spice = Block(width= 50, height= 50, x= x, y= y, file_name= "spice.png", folder_name= "enemies")
+                    spice.load_image()
+                    list_blocks.append(spice)
                 x += 50
             y += 50
             x = self.X

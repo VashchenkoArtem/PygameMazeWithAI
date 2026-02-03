@@ -11,6 +11,8 @@ class Hero(Settings):
         self.load_image()
         self.is_jumping = False
         self.jump_timer = 0
+        self.direction_x = 0
+        self.direction_y = 1
 
     def get_keys(self):
         return pygame.key.get_pressed()
@@ -24,6 +26,8 @@ class Hero(Settings):
             self.DIRECTION_L_R = False
             self.SPEED = 2
             self.load_image()
+            self.direction_x = -1
+            self.direction_y = 0
 
         if keys[pygame.K_d]:
             self.collision_right()
@@ -32,6 +36,8 @@ class Hero(Settings):
             self.DIRECTION_L_R = True
             self.SPEED = 2
             self.load_image()
+            self.direction_x = 1
+            self.direction_y = 0
 
         if keys[pygame.K_w]:
             self.collision_up()
@@ -40,6 +46,8 @@ class Hero(Settings):
             self.FILE_NAME = "hero.png"
             self.DIRECTION_U_D = True
             self.load_image()
+            self.direction_x = 0
+            self.direction_y = -1
             
         if keys[pygame.K_s]:
             self.collision_down()
@@ -48,38 +56,64 @@ class Hero(Settings):
             self.FILE_NAME = "hero.png"
             self.DIRECTION_U_D = False
             self.load_image()
+            self.direction_x = 0
+            self.direction_y = 1
+
+    def move_run(self):
+        keys = self.get_keys()
+        if keys[pygame.K_LSHIFT]:
+            self.collision_up()
+            self.collision_down()
+            self.collision_left()
+            self.collision_right()
+            self.X += self.SPEED * self.direction_x * 1.3
+            self.Y += self.SPEED * self.direction_y * 1.3
 
     def move_jump(self):
         keys = self.get_keys()
-        if keys[pygame.K_SPACE] and not self.is_jumping:
+        self.collision_up()
+        self.collision_down()
+        self.collision_left()
+        self.collision_right()
+        if keys[pygame.K_SPACE] and not self.is_jumping and not self.space_locked:
             self.is_jumping = True
             self.jump_timer = 15
+            self.space_locked = True
+
+        if not keys[pygame.K_SPACE]:
+            self.space_locked = False
 
         if self.is_jumping:
-            self.Y += -self.SPEED * 2
+            self.Y += self.SPEED * self.direction_y
+            self.X += self.SPEED * self.direction_x
             self.jump_timer -= 1
             if self.jump_timer <= 0:
                 self.is_jumping = False
+
 
     def stop_up(self, block, step):
         if block.X < self.X + step and block.X + block.WIDTH > self.X + step: 
             if block.Y + block.HEIGHT > self.Y - 2 and block.Y + block.HEIGHT < self.Y + self.HEIGHT:
                 self.SPEED = 0
+                self.Y += 2
     
     def stop_down(self, block, step):
         if block.X < self.X + step and block.X + block.WIDTH > self.X + step: 
             if block.Y <= self.Y + self.HEIGHT + 2 and block.Y > self.Y:
                 self.SPEED = 0
+                self.Y -= 2
 
     def stop_left(self, block, step):
         if block.Y < self.Y + step and block.Y + block.HEIGHT > self.Y + step:
             if block.X + block.WIDTH >= self.X - 2 and block.X + block.WIDTH < self.X + self.WIDTH:
                 self.SPEED = 0
+                self.X += 2
 
     def stop_right(self, block, step):
         if block.Y < self.Y + step and block.Y + block.HEIGHT > self.Y + step:
             if block.X <= self.X + self.WIDTH + 2 and block.X > self.X + self.WIDTH:
                 self.SPEED = 0
+                self.X -= 2
 
     def collision_up(self):
         for block in list_blocks:
@@ -89,6 +123,8 @@ class Hero(Settings):
             self.stop_up(block= block, step = self.WIDTH // 8)
             self.stop_up(block= block, step = 12)
             self.stop_up(block= block, step = self.WIDTH // 4)
+            self.stop_up(block= block, step = self.WIDTH // 2)
+            self.stop_up(block= block, step = self.WIDTH)
 
     def collision_down(self):
         for block in list_blocks:
@@ -96,17 +132,21 @@ class Hero(Settings):
             self.stop_down(block= block, step= 2)
             self.stop_down(block= block, step= self.WIDTH // 8)
             self.stop_down(block= block, step= 6)
+            self.stop_down(block= block, step = self.WIDTH // 2)
             self.stop_down(block= block, step=  self.WIDTH // 4)
             self.stop_down(block= block, step= 12)
+            self.stop_down(block= block, step = self.WIDTH)
 
     def collision_left(self):
         for block in list_blocks:
             self.stop_left(block= block, step= 0)
             self.stop_left(block= block, step= 2)
             self.stop_left(block= block, step= self.WIDTH // 8)
+            self.stop_left(block= block, step = self.WIDTH // 2)
             self.stop_left(block= block, step= 6)
             self.stop_left(block= block, step=  self.WIDTH // 4)
             self.stop_left(block= block, step= 12)
+            self.stop_left(block= block, step= self.WIDTH)
     
     def collision_right(self):
         for block in list_blocks:
@@ -116,6 +156,8 @@ class Hero(Settings):
             self.stop_right(block= block, step= 6)
             self.stop_right(block= block, step=  self.WIDTH // 4)
             self.stop_right(block= block, step= 12)
+            self.stop_right(block= block, step= self.WIDTH // 2)
+            self.stop_right(block= block, step= self.WIDTH)
 
 hero = Hero(25, 25, 62.5, 62.5, "hero.png", "hero")
 list_blocks.append(hero)
