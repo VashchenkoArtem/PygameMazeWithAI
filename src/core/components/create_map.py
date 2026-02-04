@@ -3,6 +3,8 @@ from core.settings import Settings
 from core.block import Block
 from core.database import list_map, list_blocks
 from core.setup import screen
+from core.spice import Spice
+from core.hero import hero
 
 pygame.init()
 
@@ -20,7 +22,7 @@ class Map(Settings):
                     wall.load_image()
                     list_blocks.append(wall)
                 if block == 2:
-                    spice = Block(width= 50, height= 50, x= x, y= y, file_name= "spice.png", folder_name= "enemies")
+                    spice = Spice(width= 50, height= 50, x= x, y= y, file_name= "spice.png", folder_name= "enemies", hero= hero)
                     spice.load_image()
                     list_blocks.append(spice)
                 x += 50

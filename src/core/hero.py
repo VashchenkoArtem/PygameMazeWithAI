@@ -13,6 +13,7 @@ class Hero(Settings):
         self.jump_timer = 0
         self.direction_x = 0
         self.direction_y = 1
+        self.HP = 5
 
     def get_keys(self):
         return pygame.key.get_pressed()
@@ -158,6 +159,11 @@ class Hero(Settings):
             self.stop_right(block= block, step= 12)
             self.stop_right(block= block, step= self.WIDTH // 2)
             self.stop_right(block= block, step= self.WIDTH)
+    def is_dead(self):
+        if self.HP <= 0:
+            self.X = 57.5
+            self.Y = 57.5
+            self.HP = 5
 
-hero = Hero(25, 25, 62.5, 62.5, "hero.png", "hero")
+hero = Hero(35, 35, 57.5, 57.5, "hero.png", "hero")
 list_blocks.append(hero)

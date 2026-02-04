@@ -17,11 +17,15 @@ def run_game():
             if hero.TYPE == "hero":
                 hero.blit_sprite(screen)
                 
+                hero.is_dead()
+
                 hero.move_hero()
                 hero.move_run()
                 hero.move_jump()
                 
         for block in list_blocks:
+            if block.TYPE == "temporary spice":
+                block.collision_hero_up()
             block.blit_sprite(screen)
         pygame.display.flip()
         clock.tick(60)
