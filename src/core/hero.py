@@ -2,6 +2,8 @@ from core.settings import Settings
 import pygame
 from utils.path_to_hero import find_path_to_hero
 from core.database import list_blocks
+from core.heart import generate_heart
+
 pygame.init()
 
 class Hero(Settings):
@@ -164,6 +166,7 @@ class Hero(Settings):
             self.X = 57.5
             self.Y = 57.5
             self.HP = 5
+            generate_heart(self.HP)
 
 hero = Hero(35, 35, 57.5, 57.5, "hero.png", "hero")
 list_blocks.append(hero)

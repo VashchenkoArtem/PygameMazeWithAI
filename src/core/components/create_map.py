@@ -22,7 +22,7 @@ class Map(Settings):
                     wall.load_image()
                     list_blocks.append(wall)
                 if block == 2:
-                    spice = Spice(width= 50, height= 50, x= x, y= y, file_name= "spice.png", folder_name= "enemies", hero= hero)
+                    spice = Spice(width= 45, height= 45, x= x + 2.5, y= y + 2.5, file_name= "spice.png", folder_name= "enemies", hero= hero)
                     spice.load_image()
                     list_blocks.append(spice)
                 x += 50
