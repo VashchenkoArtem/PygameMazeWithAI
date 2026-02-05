@@ -12,7 +12,6 @@ class Spice(Settings):
         if self.TYPE != "temporary spice":
             return
 
-        # Запоминаем текущий центр
         center_x = self.X + self.WIDTH // 2
         center_y = self.Y + self.HEIGHT // 2
 
@@ -34,7 +33,6 @@ class Spice(Settings):
             self.FILE_NAME = "small_spice.png"
             self.load_image()
 
-        # Восстанавливаем позицию так, чтобы центр не менялся
         self.X = center_x - self.WIDTH // 2
         self.Y = center_y - self.HEIGHT // 2
 
