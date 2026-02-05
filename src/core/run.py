@@ -25,7 +25,7 @@ def run_game():
                 hero.move_jump()
                 
         for block in list_blocks:
-            if block.TYPE == "temporary spice":
+            if block.TYPE == "temporary spice" or block.TYPE == "default spice":
 
                 block.collision_hero_up()
                 block.collision_hero_down()

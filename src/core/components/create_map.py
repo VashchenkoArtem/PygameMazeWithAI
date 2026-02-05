@@ -5,6 +5,7 @@ from core.database import list_map, list_blocks
 from core.setup import screen
 from core.spice import Spice
 from core.hero import hero
+from core.bomb import Bomb
 
 pygame.init()
 
@@ -29,6 +30,10 @@ class Map(Settings):
                     spice = Spice(width= 45, height= 45, x= x + 2.5, y= y + 2.5, file_name= "big_spice.png", folder_name= "enemies", hero= hero, type_object= "temporary spice")
                     spice.load_image()
                     list_blocks.append(spice)
+                if block == 4:
+                    bomb = Bomb(x= x + 2.5, y= y + 2.5, file_name= "bomb.png", folder_name= "enemies", type_object= "bomb")
+                    bomb.load_image()
+                    list_blocks.append(bomb)
                 x += 50
             y += 50
             x = self.X
