@@ -31,7 +31,9 @@ def run_game():
                 block.collision_hero_down()
                 block.collision_hero_left()
                 block.collision_hero_right()
+                block.animate_temporary_spice()
             block.blit_sprite(screen)
+
         for heart in list_hearts:
             heart.blit_sprite(screen)
         pygame.display.flip()

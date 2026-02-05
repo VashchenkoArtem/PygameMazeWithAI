@@ -6,6 +6,42 @@ class Spice(Settings):
         super().__init__(width= width, height= height, x= x, y= y, file_name= file_name, folder_name= folder_name)
         self.HERO = hero
         self.TYPE = type_object
+        self.ANIMATION_COUNT = 0
+
+    def animate_temporary_spice(self):
+        if self.TYPE != "temporary spice":
+            return
+
+        # Запоминаем текущий центр
+        center_x = self.X + self.WIDTH // 2
+        center_y = self.Y + self.HEIGHT // 2
+
+        if self.ANIMATION_COUNT == 0:
+            self.WIDTH = 45
+            self.HEIGHT = 45
+            self.FILE_NAME = "big_spice.png"
+            self.load_image()
+
+        if self.ANIMATION_COUNT == 40 or self.ANIMATION_COUNT == 120:
+            self.WIDTH = 35
+            self.HEIGHT = 35
+            self.FILE_NAME = "middle_spice.png"
+            self.load_image()
+
+        if self.ANIMATION_COUNT == 80:
+            self.WIDTH = 25
+            self.HEIGHT = 25
+            self.FILE_NAME = "small_spice.png"
+            self.load_image()
+
+        # Восстанавливаем позицию так, чтобы центр не менялся
+        self.X = center_x - self.WIDTH // 2
+        self.Y = center_y - self.HEIGHT // 2
+
+        if self.ANIMATION_COUNT == 160:
+            self.ANIMATION_COUNT = -1
+
+        self.ANIMATION_COUNT += 1
 
     def check_hero_up(self, step):
         if  self.X < self.HERO.X + self.HERO.WIDTH and self.X + self.WIDTH > self.HERO.X:
