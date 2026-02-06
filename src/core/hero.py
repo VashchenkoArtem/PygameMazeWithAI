@@ -1,8 +1,8 @@
 from core.settings import Settings
 import pygame
 from utils.path_to_hero import find_path_to_hero
-from core.database import list_blocks
-from core.heart import generate_heart
+from core.database import list_blocks, list_hearts
+from utils.heart import generate_heart
 
 pygame.init()
 
@@ -16,6 +16,8 @@ class Hero(Settings):
         self.direction_x = 0
         self.direction_y = 1
         self.HP = 5
+        self.freeze_timer = 0
+        self.is_frozen = False
 
     def get_keys(self):
         return pygame.key.get_pressed()
@@ -161,12 +163,24 @@ class Hero(Settings):
             self.stop_right(block= block, step= 12)
             self.stop_right(block= block, step= self.WIDTH // 2)
             self.stop_right(block= block, step= self.WIDTH)
+
     def is_dead(self):
-        if self.HP <= 0:
+        if self.HP == 0:
+            print("asdad")
             self.X = 57.5
             self.Y = 57.5
             self.HP = 5
-            generate_heart(self.HP)
+            generate_heart(5)
 
+    def freeze(self, seconds):
+        self.is_frozen = True
+        self.freeze_timer = seconds * 60
+
+    def update_freeze(self):
+        if self.is_frozen:
+            self.freeze_timer -= 1
+            if self.freeze_timer <= 0:
+                self.is_frozen = False
+                
 hero = Hero(35, 35, 57.5, 57.5, "hero.png", "hero")
 list_blocks.append(hero)
